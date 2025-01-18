@@ -1,6 +1,7 @@
 import os
 from datetime import timedelta
 from pathlib import Path
+from celery.schedules import crontab
 
 from dotenv import load_dotenv
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'lms',
     'drf_yasg',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +152,17 @@ SIMPLE_JWT = {
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
+
+
+ELERY_BEAT_SCHEDULE = {
+    'deactivate-inactive-users-every-day': {
+        'task': 'lms.tasks.deactivate_inactive_users',
+        'schedule': crontab(minute=0, hour=0),
+    },
+}
+
+
+CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
