@@ -154,10 +154,10 @@ STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
 
 
-ELERY_BEAT_SCHEDULE = {
+CELERY_BEAT_SCHEDULE = {
     'deactivate-inactive-users-every-day': {
         'task': 'lms.tasks.deactivate_inactive_users',
-        'schedule': crontab(minute=0, hour=0),
+        'schedule': crontab(minute=1, hour=0),
     },
 }
 
