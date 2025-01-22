@@ -81,7 +81,8 @@ class Subscription(models.Model):
     course = models.ForeignKey(
         'Course',
         on_delete=models.CASCADE,
-        verbose_name='Курс'
+        verbose_name='Курс',
+        related_name="subscriptions"
     )
 
     class Meta:

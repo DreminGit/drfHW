@@ -25,9 +25,8 @@ class CourseViewSet(ModelViewSet):
 
     def perform_update(self, serializer):
         instance = serializer.save()
-        for subscription in instance.subscriptions:
-            send_course_update_email.delay(subscription.user.email, instance.title)
-
+        for subscriber in instance.subscription.all():
+            send_course_update_email.delay(subscriber.user.email, instance.name)
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return CourseDetailSerializer
